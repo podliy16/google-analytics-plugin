@@ -52,10 +52,11 @@
         <param name="android-package" value="com.danielcwilson.plugins.analytics.UniversalAnalyticsPlugin" />
       </feature>
     </config-file>
-    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+    <config-file target="AndroidManifest.xml" parent="/*">
       <uses-permission android:name="android.permission.INTERNET" />
       <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
       <!-- Google Play Store Campaign Measurement -->
       <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
       <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
