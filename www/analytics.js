@@ -25,7 +25,7 @@ UniversalAnalyticsPlugin.prototype.addCustomDimension = function(key, value, suc
   cordova.exec(success, error, 'UniversalAnalytics', 'addCustomDimension', [key, value]);
 };
 
-UniversalAnalyticsPlugin.prototype.trackEvent = function(category, action, label, value, success, error) {
+UniversalAnalyticsPlugin.prototype.trackEvent = function(category, deepLinkUrk, action, label, value, success, error) {
   if (typeof label === 'undefined' || label === null) {
     label = '';
   }
@@ -33,7 +33,7 @@ UniversalAnalyticsPlugin.prototype.trackEvent = function(category, action, label
     value = 0;
   }
 
-  cordova.exec(success, error, 'UniversalAnalytics', 'trackEvent', [category, action, label, value]);
+  cordova.exec(success, error, 'UniversalAnalytics', 'trackEvent', [category, deepLinkUrk, action, label, value]);
 };
 
 /**
