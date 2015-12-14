@@ -110,14 +110,14 @@
     if ([command.arguments count] > 0)
         category = [command.arguments objectAtIndex:0];
 
-    if ([command.arguments count] > 1)
-        action = [command.arguments objectAtIndex:1];
-
     if ([command.arguments count] > 2)
-        label = [command.arguments objectAtIndex:2];
+        action = [command.arguments objectAtIndex:2];
 
     if ([command.arguments count] > 3)
-        value = [command.arguments objectAtIndex:3];
+        label = [command.arguments objectAtIndex:3];
+
+    if ([command.arguments count] > 4)
+        value = [command.arguments objectAtIndex:4];
 
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
 
