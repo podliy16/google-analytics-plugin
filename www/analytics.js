@@ -21,6 +21,10 @@ UniversalAnalyticsPlugin.prototype.trackView = function(screen, deepLinkUrl, suc
   cordova.exec(success, error, 'UniversalAnalytics', 'trackView', [screen, deepLinkUrl]);
 };
 
+UniversalAnalyticsPlugin.prototype.addCustomMetric = function(key, value, success, error) {
+  cordova.exec(success, error, 'UniversalAnalytics', 'addCustomMetric', [key, value]);
+};
+
 UniversalAnalyticsPlugin.prototype.addCustomDimension = function(key, value, success, error) {
   cordova.exec(success, error, 'UniversalAnalytics', 'addCustomDimension', [key, value]);
 };
