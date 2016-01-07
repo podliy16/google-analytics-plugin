@@ -31,7 +31,7 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
     public Boolean trackerStarted = false;
     public Boolean debugModeEnabled = false;
     public HashMap<String, String> customDimensions = new HashMap<String, String>();
-    public HashMap<String, Stirng> customMetric = new HashMap<String, String>();
+    public HashMap<String, String> customMetric = new HashMap<String, String>();
 
     public Tracker tracker;
 
