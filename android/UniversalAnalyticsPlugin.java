@@ -26,10 +26,12 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
     public static final String ALLOW_IDFA_COLLECTION = "allowIDFACollection";
     public static final String SET_USER_ID = "setUserId";
     public static final String DEBUG_MODE = "debugMode";
+    public static final String ADD_CUSTOM_METRIC = "addMetric";
 
     public Boolean trackerStarted = false;
     public Boolean debugModeEnabled = false;
     public HashMap<String, String> customDimensions = new HashMap<String, String>();
+    public HashMap<String, Stirng> customMetric = new HashMap<String, String>();
 
     public Tracker tracker;
 
@@ -66,6 +68,11 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
             if (length > 0) {
                 this.trackTiming(args.getString(0), length > 1 ? args.getLong(1) : 0, length > 2 ? args.getString(2) : "", length > 3 ? args.getString(3) : "", callbackContext);
             }
+            return true;
+        } else if (ADD_CUSTOM_METRIC.equals(action)) {
+            String key = args.getString(0);
+            String value = args.getString(1);
+            this.addCustomMetric(key, value, callbackContext);
             return true;
         } else if (ADD_DIMENSION.equals(action)) {
             String key = args.getString(0);
@@ -122,6 +129,27 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         }
     }
 
+    private void addCustomMetric(String key, String value, CallbackContext callbackContext) {
+        if (null != key && key.length() > 0 && null != value && value.length() > 0) {
+            customMetric.put(key, value);
+            callbackContext.success("custom metric started");
+        } else {
+            callbackContext.error("Expected non-empty string arguments.");
+        }
+    }
+
+    private void addCustomMetricToTracker(Tracker tracker) {
+        for (Entry<String, String> entry : customMetric.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            tracker.send(new HitBuilders
+                    .AppViewBuilder()
+                    .setCustomMetric((Integer.parseInt(key)), value).build());
+        }
+        customMetric.clear();
+    }
+
     private void addCustomDimension(String key, String value, CallbackContext callbackContext) {
         if (null != key && key.length() > 0 && null != value && value.length() > 0) {
             customDimensions.put(key, value);
@@ -149,6 +177,7 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         }
 
         addCustomDimensionsToTracker(tracker);
+        addCustomMetricToTracker(tracker);
 
         if (null != screenname && screenname.length() > 0) {
             tracker.setScreenName(screenname);
