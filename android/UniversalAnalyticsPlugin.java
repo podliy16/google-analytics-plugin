@@ -145,7 +145,7 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
 
             tracker.send(new HitBuilders
                     .AppViewBuilder()
-                    .setCustomMetric((Integer.parseInt(key)), value).build());
+                    .setCustomMetric((Integer.parseInt(key)), Integer.parseInt(value)).build());
         }
         customMetric.clear();
     }
