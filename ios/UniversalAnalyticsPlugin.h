@@ -9,6 +9,7 @@
     bool _trackerStarted;
     bool _debugMode;
 	NSMutableDictionary *_customDimensions;
+	NSMutableDictionary *_customMetrics;
 }
 
 - (void) startTrackerWithId: (CDVInvokedUrlCommand*)command;
@@ -16,6 +17,7 @@
 - (void) allowIDFACollection: (CDVInvokedUrlCommand*)command;
 - (void) debugMode: (CDVInvokedUrlCommand*)command;
 - (void) addCustomDimension: (CDVInvokedUrlCommand*)command;
+- (void) addCustomMetrics: (CDVInvokedUrlCommand*)command;
 - (void) trackEvent: (CDVInvokedUrlCommand*)command;
 - (void) trackTiming: (CDVInvokedUrlCommand*)command;
 - (void) trackView: (CDVInvokedUrlCommand*)command;

@@ -13,6 +13,7 @@
     _debugMode = false;
     _trackerStarted = false;
     _customDimensions = nil;
+    _customMetrics = nil;
 }
 
 - (void) startTrackerWithId: (CDVInvokedUrlCommand*)command
@@ -41,6 +42,19 @@
         value:value];
       }
     }
+}
+
+- (void) addCustomMetricsToTracker: (id<GAITracker>)tracker
+{
+  if (_customMetrics) {
+    for (NSString *key in _customMetrics) {
+      NSString *value = [_customMetrics objectForKey:key];
+
+      [tracker set:[GAIFields customMetricForIndex:[key intValue]]
+      value:value];
+    }
+    [_customMetrics removeAllObjects];
+  }
 }
 
 - (void) debugMode: (CDVInvokedUrlCommand*) command
@@ -90,6 +104,21 @@
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void) addCustomMetrics: (CDVInvokedUrlCommand*)command
+{
+  CDVPluginResult* pluginResult = nil;
+  NSString* key = [command.arguments objectAtIndex:0];
+  NSString* value = [command.arguments objectAtIndex:1];
+
+  if ( ! _customMetrics) {
+    _customMetrics = [[NSMutableDictionary alloc] init];
+  }
+
+  _customMetrics[key] = value;
+  pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+  [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) trackEvent: (CDVInvokedUrlCommand*)command
@@ -179,6 +208,7 @@
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
 
     [self addCustomDimensionsToTracker:tracker];
+    [self addCustomMetricsToTracker:tracker];
 
     NSString* deepLinkUrl = [command.arguments objectAtIndex:1];
     GAIDictionaryBuilder* openParams = [[GAIDictionaryBuilder alloc] init];
